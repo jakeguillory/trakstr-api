@@ -1,7 +1,7 @@
 const express = require('express')
 const { getDb, connectToDb } = require('./db')
 const { ObjectId } = require('mongodb')
-require('dotenv').configure()
+require('dotenv').config()
 
 // init app & middleware
 const app = express()
@@ -12,10 +12,10 @@ let db
 
 connectToDb((err) => {
   if(!err){
-    app.listen(process.env.PORT, () => {
-      console.log(`app listening on port ${PORT}`)
-    })
     db = getDb()
+    app.listen(process.env.PORT, () => {
+      console.log(`app listening on port ${process.env.PORT}`)
+    })
   }
 })
 
@@ -30,7 +30,7 @@ app.get('/united', (req, res) => {
   db.collection('united')
     .find()
     .sort({merchName: 1})
-    .skip(page * merchsPerPage)
+    //.skip(page * merchsPerPage)
     //.limit(merchsPerPage)
     .forEach(merch => merchs.push(merch))
     .then(() => {
