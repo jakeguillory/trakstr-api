@@ -29,7 +29,7 @@ NOTE: The instructions below were tested on Windows 11 running Ubuntu 22.04.2 on
 2. **Copy this repo**
 
 ```
-git clone https://github.com/jakeguillory/trakstr-api.git
+git clone https://github.com/jakeguillory/trakstr-api.git && cd trakstr-api
 ```
 
 3. **Change credentials**
