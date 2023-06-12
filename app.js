@@ -1,52 +1,57 @@
-const express = require("express");
-const { getDb, connectToDb } = require("./db");
-const { ObjectId } = require("mongodb");
-require("dotenv").config();
-const cors = require("cors");
+/*
+ *  Simple Trakstr API:
+ *    - Connects to database
+ *    - Route for all merchants
+ *    - Route for single merchant
+ */
+
+const express = require("express")
+const { getDb, connectToDb } = require("./db")
+const { ObjectId } = require("mongodb")
+require("dotenv").config()
+const cors = require("cors")
 
 // init app & middleware
-const app = express();
-app.use(express.json());
+const app = express()
+app.use(express.json())
 app.use(
   cors({
     origin: ["http://localhost:3000", "http://192.168.0.51:3000"],
   })
-);
+)
 
 // db connection
-let db;
-
+let db
 connectToDb((err) => {
   if (!err) {
     db = getDb();
     app.listen(process.env.PORT, () => {
-      console.log(`app listening on port ${process.env.PORT}`);
-    });
+      console.log(`app listening on port ${process.env.PORT}`)
+    })
   }
-});
+})
 
-// routes
+
+// Routes
+
+// Retrieve all merchants
 app.get("/united", (req, res) => {
-  // current page
-  //const page = req.query.p || 0
-  //const merchsPerPage = 2000
 
-  let merchs = [];
+  let merchs = []
 
   db.collection("united")
     .find()
     .sort({ merchName: 1 })
-    //.skip(page * merchsPerPage)
-    //.limit(merchsPerPage)
     .forEach((merch) => merchs.push(merch))
     .then(() => {
-      res.status(200).json(merchs);
+      res.status(200).json(merchs)
     })
     .catch(() => {
-      res.status(500).json({ error: "Could not fetch the documents" });
-    });
-});
+      res.status(500).json({ error: "Could not fetch the documents" })
+    })
+})
 
+// Retrieve single merchant
 app.get("/united/:id", (req, res) => {
   if (ObjectId.isValid(req.params.id)) {
     db.collection("united")
@@ -55,9 +60,9 @@ app.get("/united/:id", (req, res) => {
         res.status(200).json(doc);
       })
       .catch((err) => {
-        res.status(500).json({ error: "Could not fetch the document" });
-      });
+        res.status(500).json({ error: "Could not fetch the document" })
+      })
   } else {
-    res.status(500).json({ error: "Could not fetch the document" });
+    res.status(500).json({ error: "Could not fetch the document" })
   }
-});
+})
