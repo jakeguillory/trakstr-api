@@ -32,23 +32,19 @@ NOTE: The instructions below were tested on Windows 11 running Ubuntu 22.04.2 on
 git clone https://github.com/jakeguillory/trakstr-api.git && cd trakstr-api
 ```
 
-3. **Change credentials**
-
-Change username and password in connection string of MONGO-URI in .env file
-
-5. **Install Dependencies**
+3. **Install Dependencies**
 
 ```
 npm install
 ```
 
-6. **Start API**
+4. **Start API**
 
 ```
 node app
 ```
 
-8. **Test**
+5. **Test**
 
 Run the following in terminal
 
